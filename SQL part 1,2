@@ -1,0 +1,422 @@
+SQL Mentoring:
+1. RDBMS
+2. Schema - Set of db objects representing part or all of a business enterprise
+3. Entity - Anything about which we would like to stote information
+4. Table - physical representation of an entity with a schema
+5. Column or Field - Used to store attributes of an entity
+6. Row - Used to store instances of an entity
+Field value(right definition)
+Normalization
+1. 0NF - SpreadSheet Mode
+2. 1NF - Remove Repeaters
+3. 2NF - Remove Partials
+3. 3NF - Remove Transitive
+ER Diagram(Visual Design Doc)
+Excellent Communication both tech and non technical
+SQL DATA TYPES:
+Exact Numeric
+Approximate Numeric
+Date and Time
+Character String
+Unicode Character Strings
+Binary
+Misc(xml, table, cursor, json and etc)
+Language Statements:
+-->DML - Data Manipulation Language
+SELECT, INSERT, DELETE, UPDATE
+-->DDL (Definition)
+CREATE, ALTER, DROP, RENAME, TRUNCATE
+-->TCL (Transaction Control)
+COMMIT, ROLLBACK, SAVEPOINT
+-->DCL(Data Control)
+GRANT, REVOKE
+DML:
+SELECT column1, column2....columnN
+FROM   table_name;
+    ?WhatIf
+    WHERE column_name IS NULL (IS NOT NULL)
+    
+    ?WhatIf
+    Want to get only a few first rows?
+Constraints:
+NOT NULL Constraint − Ensures that a column cannot have NULL value.
+    ?WHATIF
+    Select w/o entity assign???
+DEFAULT Constraint − Provides a default value for a column when none is specified.
+UNIQUE Constraint − Ensures that all values in a column are different.
+    What can be Unique???
+    What can be not null and null???
+Make uniqueness:
+PRIMARY Key − Uniquely identifies each row/record in a database table.
+Set of column which uniquely identifies each woe in a table
+FOREIGN Key − Uniquely identifies a row/record in any of the given database table.
+Set of column in one table which represent the PK of a second table
+CHECK Constraint − The CHECK constraint ensures that all the values in a column satisfies certain conditions.
+INDEX − Used to create and retrieve data from the database very quickly.
+CONDITIONS:
+like >, <, =, LIKE, NOT, !=. >=, <=, NOT LIKE and etc
+LIKE:
+% - The percent sign represents zero, one, or multiple characters
+_ - The underscore represents a single character
+[]  Represents any single character within the brackets h[oa]t finds hot and hat, but not hit
+^   Represents any character not in the brackets    h[^oa]t finds hit, but not hot and hat
+-   Represents a range of characters    c[a-b]t finds cat and cbt
+DISTINCT:
+SELECT DISTINCT COLUMN_NAME FROM table_name;
+    ?WhatIF
+    SELECT COUNT(DISTINCT coulumn_name)
+SELECT TOP 10 SALARY FROM table_name; (MS SQL)
+SELECT SALARY FROM table_name LIMIT 10; (MY SQL)
+SELECT SALARY FROM  table_name rownum<=10 (ORACLE)
+AND Syntax
+SELECT column1, column2, ...
+FROM table_name
+WHERE condition1 AND condition2 AND condition3;
+OR Syntax
+SELECT column1, column2, ...
+FROM table_name
+WHERE condition1 OR condition2 OR condition3 ...;
+NOT Syntax
+SELECT column1, column2, ...
+FROM table_name
+WHERE NOT condition;
+    ?WHATIF
+    __(two), if(_%) 
+    ?WHAT IF
+    SELECT .... '%OR%' OR '%AND' AND 'OR'
+ORDER BY:
+SELECT column1, column2, ...
+FROM table_name
+ORDER BY column1, column2, ... ASC|DESC;
+?WHATIF
+SELECT * FROM table_name
+ORDER BY coulumn_name, culumn_name
+(The same column name)
+IN Syntax
+SELECT column_name(s)
+FROM table_name
+WHERE column_name IN (value1, value2, ...);
+or:
+SELECT column_name(s)
+FROM table_name
+WHERE column_name IN (SELECT STATEMENT);
+CREATE TABLE table_name(
+   column1 datatype,
+   column2 datatype,
+   .....
+   columnN datatype,
+   PRIMARY KEY( one or more columns )
+   );
+In SQL When you create a table using DDL statements, you define columns (metadata). 
+When you add rows using DML statements, you define rows and their fields.
+INSERT:
+INSERT INTO TABLE_NAME (column1, column2, column3,...columnN)  
+VALUES (value1, value2,...valueN);
+    ?WHATIF
+    INSERT INTO TABLE_NAME VALUES (value1,value2,...valueN);
+    ?WhatIF
+    INSERT INTO table_name(column_name,column_name,column_name)
+    values ('something', 'somethind', 'somthing')
+DELETE:
+DELETE FROM table_name
+WHERE [condition];
+UPDATE:
+UPDATE table_name
+SET column1 = value1, column2 = value2...., columnN = valueN
+WHERE [condition];
+    ?WhatIF
+    UPDATE TABLE_NAME 
+    SET COLUMN_NAME='something', 'ANOTHER_COLUMN'=5000
+===========================================================
+CREATE TABLE Person (
+   ID int NOT NULL UNIQUE,
+   FirstName varchar(255) NOT NULL,
+   LastName varchar(255) NOT NULL,
+   Age int,
+   City varchar(255) DEFAULT 'Chicago',
+   CONSTRAINT PK_Person PRIMARY KEY (ID,LastName),
+   CHECK (Age>=18)
+);
+=============================================================
+SQL II
+GROUP BY:
+GROUP BY clause is used in collaboration with the SELECT statement to arrange identical data into groups.
+SELECT column1, column2
+FROM table_name
+WHERE [ conditions ]
+GROUP BY column1, column2
+ORDER BY column1, column2
+SELECT count(*), first_name FROM hr.employees
+--ORDER BY first_name
+GROUP BY first_name;
+ ??? How to find maximum salary of David's
+    or minimum of David's
+    SELECT count(*), first_name, max(salary) FROM Hr.employees
+GROUP BY first_name, salary
+HAVING SALARY>0
+ORDER BY first_name DESC;
+HAVING:
+is an optional clause of the SELECT statement. It is used to filter groups of rows returned by the GROUP BY clause. This is why the HAVING clause is usually used with the GROUP BY clause.
+????find the orders whose values are greater than 200 000.
+SELECT  order_id, SUM( unit_price * quantity ) order_value
+FROM oe.order_items
+GROUP BY order_id
+HAVING SUM( unit_price * quantity ) > 200000
+ORDER BY order_value DESC;
+Interview quiestion?
+Difference between GROUP BY and ORDER BY?
+HAVING VS WHERE?    HAVING clause filters groups of rows while the WHERE clause filters rows. This is a main difference between the HAVING and WHERE clauses.
+Round, trunc, mod, %:
+???Find avg salary and round the result
+Column Alias and Table Alias:
+SELECT column1, column2....
+FROM table_name AS alias_name
+WHERE [condition];
+SELECT last_name AS "LastName", first_name AS "First Name"
+FROM hr.employees hr;
+SELECT hr.last_name AS "LastName", hr.first_name AS "First Name"
+FROM hr.employees hr
+SUBQUERY:
+We need to execute two queries separately to get the most expensive product information. By using a subquery, we can nest the first query inside the second one as shown in the following query
+--First, execute the subquery.
+--Second, use the result of the subquery in the outer query.
+SELECT product_id, product_name, list_price
+FROM OE.PRODUCT_INFORMATION
+WHERE list_price = (
+   SELECT MAX( list_price )
+   FROM oe.product_information
+);
+A subquery which is nested within the FROM clause of the SELECT statement is called an inline view. Note that other RDBMS such as MySQL and PostgreSQL use the term derived table instead of the inline view.
+These are the main advantages of subqueries:
+Provide an alternative way to query data that would require complex joins and unions.
+Make the complex queries more readable.
+Allow a complex query to be structured in a way that it is possible to isolate each part.
+CORRELATED SUBQUERY:
+ finds all products whose list price is above average for their category.
+first is outer quesry and avg is correlated subquery
+SELECT product_id, product_name, list_price
+FROM oe.product_information 
+WHERE list_price > (
+        SELECT AVG( list_price )
+        FROM oe.product_information
+        WHERE category_id = p.category_id
+);
+Done with DML, contuinue with DDL:
+ALTER TABLE table_name
+ADD column_name datatype;
+ALTER TABLE table_name
+DROP COLUMN column_name;
+ALTER TABLE table_name
+MODIFY column_name datatype;    --different in MY SQL, MS SQL
+ALTER TABLE table_name
+RENAME TO new_table_name;
+ALTER TABLE table_name
+RENAME COLUMN old_name TO new_name;
+ALTER TABLE EMPLOYEES DROP PRIMARY KEY;
+DROP TABLE table_name;
+CREATE TABLE Person (
+    ID int NOT NULL UNIQUE,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    City varchar(255) DEFAULT 'Chicago'
+    CONSTRAINT PK_Person PRIMARY KEY (ID,LastName)
+    CHECK (Age>=18)
+);
+--PersonID int FOREIGN KEY REFERENCES Persons(PersonID)
+TRUNCATE TABLE [schema_name.]table_name
+  [ PRESERVE MATERIALIZED VIEW LOG | PURGE MATERIALIZED VIEW LOG ]
+  [ DROP STORAGE | REUSE STORAGE ] ;
+DDL FINISHED!!!
+-->TCL (Transaction Control)
+COMMIT, ROLLBACK, SAVEPOINT
+-->DCL(Data Control)
+GRANT, REVOKE
+UNION(UNION ALL, MINUS, INTERSECT):
+The SQL UNION clause/operator is used to combine the results of two or more SELECT statements without returning any duplicate rows.
+To use this UNION clause, each SELECT statement must have
+The same number of columns selected
+The same number of column expressions
+The same data type and
+Have them in the same order
+Union:
+By default, the UNION operator returns the unique rows from both result sets. 
+SELECT column_list FROM T1
+UNION 
+SELECT column_list FROM T2;
+SELECT EMPLOYEE_ID,  DEPARTMENT_ID, MANAGER_ID, EMAIL FROM Hr.employees 
+UNION
+SELECT DEPARTMENT_ID, LOCATION_ID, MANAGER_ID, DEPARTMENT_NAME  FROM Hr.departments
+ORDER BY DEPARTMENT_ID;
+Union All:
+If you want to retain the duplicate rows, you explicitly use UNION ALL
+UNION ALL operator does not remove duplicate rows.
+SELECT column_list FROM T1
+UNION ALL 
+SELECT column_list FROM T2;
+SELECT EMPLOYEE_ID,  DEPARTMENT_ID, MANAGER_ID, EMAIL FROM Hr.employees
+UNION ALL
+SELECT DEPARTMENT_ID, LOCATION_ID, MANAGER_ID, DEPARTMENT_NAME  FROM Hr.departments
+ORDER BY DEPARTMENT_ID;
+INTERSECT:
+The Oracle INTERSECT operator compares the result of two queries and returns the distinct rows that are output by both queries.
+Similar to the UNION operator, you must follow these rules when using the INTERSECT operator:
+The number and the order of columns must be the same in the two queries.
+The data type of the corresponding columns must be in the same data type group such as numeric or character.
+Returns the intersection of two circles (or sets).
+SELECT DEPARTMENT_ID   FROM Hr.employees 
+INTERSECT
+SELECT DEPARTMENT_ID FROM Hr.departments
+ORDER BY DEPARTMENT_ID;
+MINUS:
+The Oracle MINUS operator compares two queries and returns distinct rows from the first query that are not output by the second query. 
+Similar to the UNION and INTERSECT operators, the queries above must conform with the following rules:
+The number of columns and their orders must match.
+The data type of the corresponding columns must be in the same data type group such as numeric or character.
+SELECT DEPARTMENT_ID   FROM Hr.employees 
+MINUS
+SELECT DEPARTMENT_ID FROM Hr.departments
+INSERT AS SELECT:
+INSERT INTO target_table (col1, col2, col3)
+SELECT col1,
+       col2,
+       col3
+FROM source_table
+WHERE condition;
+FUNCTIONS:
+There are two types of functions in Oracle.
+1)  Single Row Functions: Single row or Scalar functions return a value for every row that is processed in a query. 
+2)  Group Functions: These functions group the rows of data based on the values returned by the query. This is discussed in SQL GROUP Functions. The group functions are used to calculate aggregate values like total or average, which return just one total or one average value after processing a group of rows.
+There are four types of single row functions. They are: 
+1)  Numeric Functions: These are functions that accept numeric input and return numeric values. 
+2)  Character or Text Functions: These are functions that accept character input and can return both character and number values. 
+3)  Date Functions: These are functions that take values that are of datatype DATE as input and return values of datatype DATE, except for the MONTHS_BETWEEN function, which returns a number.
+4)  Conversion Functions: These are functions that help us to convert a value in one form to another form. For Example: a null value into an actual value, or a value from one datatype to another datatype like NVL, TO_CHAR, TO_NUMBER, TO_DATE etc.
+You can combine more than one function together in an expression. This is known as nesting of functions.
+NUMERIC FUNCTIONS:
+ABS (x) Absolute value of the number 'x' Ex. ABS (-1)-->1
+CEIL (x)    Integer value that is Greater than or equal to the number 'x'. Ex. CEIL(2.89)-->3    
+FLOOR (x)   Integer value that is Less than or equal to the number 'x'. Ex.FLOOR (2.83) --> 2
+TRUNC (x, y)    Truncates value of number 'x' up to 'y' decimal places. Ex. TRUNC (140.234, 2) --> 140.23
+ROUND (x, y)    Rounded off value of the number 'x' up to the number 'y' decimal places. Ex.    ROUND (125.456, 1) --> 125.4
+STRING FUNCTIONS(CHARACTER OR TEXT):
+LOWER (string_value)    All the letters in 'string_value' is converted to lowercase.
+Ex. LOWER('Good Morning')--> good morning
+UPPER (string_value)    All the letters in 'string_value' is converted to uppercase.
+UPPER('Good Morning')--> GOOD MORNING
+INITCAP (string_value)  All the letters in 'string_value' is converted to mixed case.
+Ex.INITCAP('GOOD MORNING') --> Good Morning 
+LTRIM (string_value, trim_text) All occurrences of 'trim_text' is removed from the left of 'string_value'. Ex. LTRIM ('Good Morning', 'Good) --> Morning
+RTRIM (string_value, trim_text) All occurrences of 'trim_text' is removed from the right of 'string_value' . Ex. RTRIM ('Good Morning', ' Morning') --> Good
+TRIM (trim_text FROM string_value)  All occurrences of 'trim_text' from the left and right of 'string_value' , 'trim_text' can also be only one character long . Ex. TRIM ('o' FROM 'Good Morning') --> Gd Mrning
+SUBSTR (string_value, m, n) Returns 'n' number of characters from 'string_value' starting from the 'm' position. Ex. SUBSTR ('Good Morning', 6, 7) --> Morning
+LENGTH (string_value)   Number of characters in 'string_value' in returned.  Ex. LENGTH ('Good Morning') -->     12 
+LPAD (string_value, n, pad_value)   Returns 'string_value' left-padded with 'pad_value' . The length of the whole string will be of 'n' characters. Ex. LPAD ('Good', 6, '*') --> **Good
+RPAD (string_value, n, pad_value)   Returns 'string_value' right-padded with 'pad_value' . The length of the whole string will be of 'n' characters. Ex. RPAD ('Good', 6, '*') --> Good**
+DATE FUNCTIONS:
+ADD_MONTHS (date, n)    Returns a date value after adding 'n' months to the date 'x'. EX. ADD_MONTHS ('16-Sep-81', 3) --> 16-Dec-81
+MONTHS_BETWEEN (x1, x2) Returns the number of months between dates x1 and x2. Ex. MONTHS_BETWEEN ('16-Sep-81', '16-Dec-81') --> 3
+ROUND (x, date_format)  Returns the date 'x' rounded off to the nearest century, year, month, date, hour, minute, or second as specified by the 'date_format'. Ex. NEXT_DAY ('01-Jun-08', 'Wednesday') --> 04-JUN-08
+TRUNC (x, date_format)  Returns the date 'x' lesser than or equal to the nearest century, year, month, date, hour, minute, or second as specified by the 'date_format'. Ex. LAST_DAY ('01-Jun-08') --> 30-Jun-08
+NEXT_DAY (x, week_day)  Returns the next date of the 'week_day' on or after the date 'x' occurs. Ex. NEW_TIME ('01-Jun-08', 'IST', 'EST') --> 31-May-08
+LAST_DAY (x)    It is used to determine the number of days remaining in a month from the date 'x' specified. 
+SYSDATE Returns the systems current date and time.
+NEW_TIME (x, zone1, zone2)  Returns the date and time in zone2 if date 'x' represents the time in zone1.
+CONVERTION FUNCTIONS:
+TO_CHAR (x [,y])    Converts Numeric and Date values to a character string value. It cannot be used for calculations since it is a string value. Ex. TO_CHAR (3000, '$9999') 
+TO_CHAR (SYSDATE, 'Day, Month YYYY') --> $3000 Monday, June 2008
+TO_DATE (x [, date_format]) Converts a valid Numeric and Character values to a Date value. Date is formatted to the format specified by 'date_format'. Ex. TO_DATE ('01-Jun-08') --> 01-Jun-08
+NVL (x, y)  If 'x' is NULL, replace it with 'y'. 'x' and 'y' must be of the same datatype. 
+DECODE (a, b, c, d, e, default_value)   Checks the value of 'a', if a = b, then returns 'c'. If a = d, then returns 'e'. Else, returns default_value. Ex.   NVL (null, 1) --> 1
+SELECT DEPARTMENT_ID   FROM Hr.employees 
+Where DEPARTMENT_ID in (10, 20, 30)
+UNION
+SELECT DEPARTMENT_ID FROM Hr.departments
+Where DEPARTMENT_ID in (20, 30, 50)
+JOINS:
+CREATE TABLE CUSTOMERS(
+   ID   INT              NOT NULL,
+   NAME VARCHAR (20)     NOT NULL,
+   AGE  INT              NOT NULL,
+   ADDRESS  CHAR (25) ,
+   SALARY   DECIMAL (18, 2),       
+   PRIMARY KEY (ID)
+);
+INSERT INTO CUSTOMERS (ID,NAME,AGE,ADDRESS,SALARY)
+VALUES (1, 'Ramesh', 32, 'Ahmedabad', 2000.00 );
+INSERT INTO CUSTOMERS (ID,NAME,AGE,ADDRESS,SALARY)
+VALUES (2, 'Khilan', 25, 'Delhi', 1500.00 );
+INSERT INTO CUSTOMERS (ID,NAME,AGE,ADDRESS,SALARY)
+VALUES (3, 'kaushik', 23, 'Kota', 2000.00 );
+INSERT INTO CUSTOMERS (ID,NAME,AGE,ADDRESS,SALARY)
+VALUES (4, 'Chaitali', 25, 'Mumbai', 6500.00 );
+INSERT INTO CUSTOMERS (ID,NAME,AGE,ADDRESS,SALARY)
+VALUES (5, 'Hardik', 27, 'Bhopal', 8500.00 );
+INSERT INTO CUSTOMERS (ID,NAME,AGE,ADDRESS,SALARY)
+VALUES (6, 'Komal', 22, 'MP', 4500.00 );
+CREATE ORDER TABLE:
+-----+---------------------+-------------+--------+
+|OID  | DATE                | CUSTOMER_ID | AMOUNT |
++-----+---------------------+-------------+--------+
+| 102 | 2009-10-08 00:00:00 |           3 |   3000 |
+| 100 | 2009-10-08 00:00:00 |           3 |   1500 |
+| 101 | 2009-11-20 00:00:00 |           2 |   1560 |
+| 103 | 2008-05-20 00:00:00 |           4 |   2060 |
++-----+---------------------+-------------+--------+
+-->INNER JOIN − returns rows when there is a match in both tables.
+The INNER JOIN creates a new result table by combining column values of two tables (table1 and table2) based upon the join-predicate. The query compares each row of table1 with each row of table2 to find all pairs of rows which satisfy the join-predicate. When the join-predicate is satisfied, column values for each matched pair of rows of A and B are combined into a result row.
+SELECT  ID, NAME, AMOUNT, DATE
+   FROM CUSTOMERS
+   INNER JOIN ORDERS
+   ON CUSTOMERS.ID = ORDERS.CUSTOMER_ID;
+-->LEFT JOIN − returns all rows from the left table, even if there are no matches in       the right table.
+LEFT JOIN returns all rows from the left table, even if there are no matches in the right table. This means that if the ON clause matches 0 (zero) records in the right table; the join will still return a row in the result, but with NULL in each column from the right table.
+SELECT  ID, NAME, AMOUNT, DATE
+   FROM CUSTOMERS
+   LEFT JOIN ORDERS
+   ON CUSTOMERS.ID = ORDERS.CUSTOMER_ID;
+This means that a left join returns all the values from the left table, plus matched values from the right table or NULL in case of no matching join predicate.
+-->RIGHT JOIN − returns all rows from the right table, even if there are no matches in         the left table.
+ RIGHT JOIN returns all rows from the right table, even if there are no matches in the left table. This means that if the ON clause matches 0 (zero) records in the left table; the join will still return a row in the result, but with NULL in each column from the left table.
+ SELECT  ID, NAME, AMOUNT, DATE
+   FROM CUSTOMERS
+   RIGHT JOIN ORDERS
+   ON CUSTOMERS.ID = ORDERS.CUSTOMER_ID;
+This means that a right join returns all the values from the right table, plus matched values from the left table or NULL in case of no matching join predicate.
+-->FULL JOIN − returns rows when there is a match in one of the tables.
+SQL FULL JOIN combines the results of both left and right outer joins.
+SELECT  ID, NAME, AMOUNT, DATE
+   FROM CUSTOMERS
+   FULL JOIN ORDERS
+   ON CUSTOMERS.ID = ORDERS.CUSTOMER_ID;
+The joined table will contain all records from both the tables and fill in NULLs for missing matches on either side.
+-->SELF JOIN − is used to join a table to itself as if the table were two tables,          temporarily renaming at least one table in the SQL statement.
+SELECT  a.ID, b.NAME, a.SALARY
+   FROM CUSTOMERS a, CUSTOMERS b
+   WHERE a.SALARY < b.SALARY;
+SQL SELF JOIN is used to join a table to itself as if the table were two tables; temporarily renaming at least one table in the SQL statement.
+-->CARTESIAN JOIN − returns the Cartesian product of the sets of records from the two       or more joined tables.
+The CARTESIAN JOIN or CROSS JOIN returns the Cartesian product of the sets of records from two or more joined tables. Thus, it equates to an inner join where the join-condition always evaluates to either True or where the join-condition is absent from the statement.
+SELECT  ID, NAME, AMOUNT, DATE
+   FROM CUSTOMERS, ORDERS;
+FURTHER:
+1. QUERY INSIDE OF QUERY?
+2. SUBQUERY?
+3. CORRELATED QUERY?
+4. Functions in SQL(Single row and multiple row functions(aggreagate, group))
+5. Concat, substr, length, instr, replace, trim
+INTERVIEW QUESTION:
+1. HOW TO FIND SECOND LOWEST SALARY?
+2. DIfference between INNER JOIN and UNION?
+3. Difference between GROUP BY and ORDER BY?
+4. How do you see top 5 or 10 records?
+
+
+
+
+
+
+
+
+
+

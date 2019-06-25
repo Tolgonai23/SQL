@@ -1,0 +1,60 @@
+1)SELECT CITY FROM hr.locations;
+2)SELECT country_id FROM hr.locations;
+3)SELECT * FROM hr.locations
+   WHERE CITY='Bombay'; 
+4) SELECT * FROM hr.locations
+   WHERE NOT CITY='Bombay';
+
+5)  SELECT * FROM hr.employees
+    WHERE employee_id=200;
+6)  SELECT * FROM hr.locations l
+	WHERE l.city='South San Francisco' 
+	AND l.postal_code=99236;
+7)  SELECT * FROM hr.locations l
+	WHERE l.city='Tokyo' 
+	OR l.city='Geneva';
+8) SELECT * FROM hr.employees
+	ORDER BY last_name;
+9)  ORDER BY email DESC;
+10) SELECT * FROM hr.locations l
+    ORDER BY location_id, city;
+11) SELECT MAX(SALARY) from hr.employees;
+    SELECT MIN(SALARY) from hr.employees;
+12) SELECT COUNT(*) FROM hr.locations
+	WHERE location_id>1800
+13)SELECT SUM(SALARY) FROM hr.employees;
+14) SELECT * FROM hr.locations l
+	WHERE l.city like 'a%'; --no data in this case
+15) SELECT * FROM hr.employees e
+	WHERE e.first_name like '%a%'; 
+16)SELECT * FROM hr.locations l
+	WHERE l.city like 'B%n';
+17)SELECT * FROM hr.employees e
+	WHERE e.first_name not like 'a%' or not like 'A%';
+18)  SELECT * FROM hr.employees e
+	WHERE e.first_name like '_a%'; 
+21)SELECT * FROM hr.countries c
+	WHERE c.country_name IN ('Japan',  'Germany'); 
+22)SELECT * FROM hr.countries c
+	WHERE c.country_name NOT IN ('India',  'United Kingdom');
+23) SELECT * FROM oe.order_items
+	WHERE unit_price between 10 and 20;
+24)SELECT * FROM oe.order_items
+	WHERE unit_price not between 10 and 20;
+25) SELECT * FROM hr.employees e
+    INNER JOIN hr.departments d
+    ON e.manager_id=d.manager_id;
+26) SELECT * FROM hr.employees e
+	INNER JOIN hr.departments d
+	ON e.department_id=d.department_id
+	FULL JOIN hr.locations l
+	ON d.location_id=l.location_id;
+27) SELECT count(first_name), c.country_name FROM hr.employees e
+    INNER JOIN hr.departments d
+    ON e.department_id=d.department_id
+    INNER JOIN hr.locations l
+    ON d.location_id=l.location_id
+    INNER JOIN hr.countries c
+    ON c.country_id=l.country_id
+    GROUP BY c.country_name;
+

@@ -1,0 +1,26 @@
+What’s the difference between CHAR and VARCHAR?
+The short answer is: VARCHAR is variable length, while CHAR is fixed length.
+
+CHAR is a fixed length string data type, so any remaining space in the field is padded with blanks. CHAR takes up 1 byte per character. So, a CHAR(100) field (or variable) takes up 100 bytes on disk, regardless of the string it holds.
+
+VARCHAR is a variable length string data type, so it holds only the characters you assign to it. VARCHAR takes up 1 byte per character, + 2 bytes to hold length information.  For example, if you set a VARCHAR(100) data type = ‘Jen’, then it would take up 3 bytes (for J, E, and N) plus 2 bytes, or 5 bytes in all.
+
+You can see how the use of VARCHAR in most cases is preferred, to save space.  Let’s take a look at a script; it declares a CHAR and a VARCHAR variable, sets each equal to the string ‘SQL’, and then SELECTs each variable to display what is actually stored:
+
+DECLARE @myChar CHAR(100) , @myVarchar VARCHAR(100)
+SET @myChar = ‘SQL’
+SET @myVarchar = ‘SQL’
+SELECT ‘[BEGIN]’ + @myChar + ‘[END]’ AS CHAR_Data
+SELECT ‘[BEGIN]’ + @myVarchar + ‘[END]’ AS VARCHAR_Data
+
+Here is the result when you run the script:
+
+Char_Data
+
+[BEGIN]SQL[END]
+
+Varchar_Data
+
+[BEGIN]SQL[END]
+
+This demo just makes a nice visual of all the extra padding (and space wasted) CHAR uses.

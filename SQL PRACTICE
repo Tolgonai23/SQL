@@ -1,0 +1,112 @@
+Big DATA 
+Security
+Relational
+
+FULL STACK AUTOMATION ENGINEER IN TEST
+FULL STACK AUTOMATION DEVELOPER
+
+SELECT * FROM hr.EMPLOYEES;
+SELECT FIRST_NAME||last_name||'gmail.com'|| FROM employees;
+select * from hr.employees where salary >12000;
+
+select first_name, last_name, salary from hr.employees;
+select first_name, last_name, salary*1.2 "newsalary" FROM hr.employees;
+
+SELECT * FROM hr.employees where department_id=90;
+SELECT * FROM hr.employees where department_id in (10,20,90);
+SELECT * FROM hr.employees where employee_id in (100,120);
+--BETWEEN--"get all employees whose salary between 1000-20000
+SELECT * FROM hr.employees where salary between 1000 and 20000;
+SELECT * FROM hr.employees where manager_id is not null;
+
+SELECT first_name, last_name, first_name||'*'||last_name FROM hr.employees;
+--ELlen Abel, ELlen*Abel
+
+Select first_name||'_'||last_name|| '@gmail.com' from hr.employees
+where hire_date >'01-Jan-2006';
+--Diana_Lorenz@gmail.com
+
+--sorting
+SELECT *FROM hr.employees
+order by employee_id;
+-------------------------------------
+SELECT * FROM hr.employees
+ORDER BY first_name, last_name asc;
+-----------------------------------------------
+SELECT first_name, last_name, salary, employee_id from hr.employees;
+WHERE employee_id  between 100 and 150
+ORDER BY salary asc, employee_id desc;
+-----------------------------------------------
+--Scanner in SQL
+SELECT * FROM hr.employees
+WHERE salary = &choose;
+
+SELECT * FROM hr.employees
+WHERE last_name like '&e&' or last_name like '&E&';
+
+SELECT * FROM hr.employees
+WHERE (first_name like '%a%'
+OR  first_name like 'A&')
+AND job_id like 'I&G';
+
+select * from hr.employees
+where first_name like '%a%a%';
+
+SELECT * from hr.employees;
+WHERE manager_id  is not null and 
+and salary between 5000 and 20000 
+and jod_id in ( 'IT_PROG' , 'FI_ACCOUNT', 'ST_CLERK')
+and (first_name  like '&e&' or first_name like  '%a%');
+----------------------------------------------------------
+--find all employees whose hired date after 2000
+--and have salary not in between 5000 snd 7000
+SELECT * from hr.employees
+where hire_date > '01-JAN-2001'
+and salary not between 5000 and 7000;
+---------------------------------------------------------
+select first_name, last_name, salary from hr.employees 
+order by 1 ;      --first column name,
+------------------------------------------------------
+--get unique one "DISTINCT"
+select DISTINCT (first_name) from hr.employees
+order by 1;
+-----------------------------------------
+--FUNCTION
+SELECT UPPER (first_name), LOWER ( last_name) from hr.employees;
+
+SELECT substr(first_name, 2,1), last_name from hr.employees;
+-----------------------------------------------------------
+--I want get all employees last 3 letters of last_name
+select first_name, substr (last_name, length(last_name)-2,3) from hr.employees;
+--Abel ->4
+--1234 ->2,3,4
+--Austin->6
+--123456->6-3=3
+--substr (your_targetting, starting_index, letter_count)
+--------------------------------------------------------------
+--INDEX OF LETTER
+select first_name, instr(first_name, 'a') from hr.employees;
+
+select phone_number, instr(phone_number, '9') from hr.employees;
+select phone_number, instr(phone_number, 5,2) from hr.employees;
+--find all employees with  capitalized last_name that have A in second letter
+select upper(last_name) from hr.employees
+where upper (last_name) like '_A%';
+-------------------------------------------
+select upper(last_name) from hr.employees
+where instr(upper (last_name), 'A')=2;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
